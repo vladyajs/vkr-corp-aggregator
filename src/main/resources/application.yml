@@ -1,2 +1,22 @@
 server:
   port: 8081
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:15432/vkr_auth_db
+    username: vkr_user
+    password: vkr_password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update  # ✅ Обязательно "update", чтобы Hibernate создавал таблицы
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true  # ✅ Включаем SQL-логи в консоли
+  application:
+    name: vkr-corp-aggregator
+
+logging:
+  level:
+    root: INFO
