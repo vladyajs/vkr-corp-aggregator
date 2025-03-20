@@ -35,6 +35,23 @@ public class AuthController {
         return ResponseEntity.status(401).body("Invalid credentials");
     }
 
+    // AuthController.java
+    @PostMapping("/change-role")
+    public ResponseEntity<String> changeRole(
+            @RequestBody ChangeRoleRequest request,
+            @RequestHeader("Authorization") String token
+    ) {
+        // Проверка, что текущий пользователь - ADMIN
+        String currentUserRole = jwtService.extractRole(token.replace("Bearer ", ""));
+        if (!currentUserRole.equals("ADMIN")) {
+            return ResponseEntity.status(403).body("Forbidden");
+        }
+
+        User updatedUser = userService.changeUserRole(request.username(), request.newRole());
+        return ResponseEntity.ok("Role changed to " + updatedUser.getRole());
+    }
+
+    public record ChangeRoleRequest(String username, Role newRole) {}
     public record RegisterRequest(String username, String password) {}
     public record LoginRequest(String username, String password) {}
 

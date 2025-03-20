@@ -39,4 +39,12 @@ public class UserService {
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
+
+    // UserService.java
+    public User changeUserRole(String username, Role newRole) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        user.setRole(newRole);
+        return userRepository.save(user);
+    }
 }
